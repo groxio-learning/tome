@@ -10,6 +10,8 @@ defmodule Tome.Library.Book do
     field :status, :string, default: "working"
     
     timestamps()
+    
+    has_many :ratings, Tome.Feedback.Rating
   end
   
   def changeset(book, params \\ %{}) do
