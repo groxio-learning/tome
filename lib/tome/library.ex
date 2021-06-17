@@ -3,14 +3,14 @@ defmodule Tome.Library do
   alias Tome.Repo
   
   def recently_published_books do
-    new 
+    new() 
     |> published 
     |> recent
     |> Repo.all
   end
   
   def recent_beta_books do
-    new 
+    new() 
     |> beta 
     |> recent
     |> Repo.all
