@@ -1,3 +1,5 @@
+import Ecto.Query
+Tome.Repo.delete_all(Tome.Feedback.Rating)
 Tome.Repo.delete_all(Tome.Library.Book)
 now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
 
@@ -17,3 +19,20 @@ books =
   end)
 
 Tome.Repo.insert_all(Tome.Library.Book, books)
+
+book_ids = Tome.Repo.all(from b in Tome.Library.Book, select: b.id)
+
+ratings = 
+  for _i <- 1..100 do
+    random_seconds_ago = -1 * :random.uniform(100 * 24 * 60 * 60)
+    time = NaiveDateTime.add(now, random_seconds_ago)
+      %{
+        inserted_at: time, 
+        updated_at: time, 
+        book_id: Enum.random(book_ids), 
+        stars: :random.uniform(5)
+      }
+    end
+
+  Tome.Repo.insert_all(Tome.Feedback.Rating, ratings)
+  

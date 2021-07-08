@@ -17,5 +17,6 @@ defmodule Tome.Feedback.Rating do
     rating
       |> cast(params, [:stars, :book_id]) 
       |> validate_required([:stars, :book_id])
+      |> validate_number(:stars, greater_than: 0, less_than: 6)
   end
 end
